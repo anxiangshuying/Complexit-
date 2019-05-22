@@ -1,0 +1,149 @@
+/* TD Complexit¨¦
+ * auteur : Nicolas Monmarch¨¦
+ * date : 10/10/2016
+ * recherche exaustive pour le TSP
+*/
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+#include <math.h>
+#include <float.h>
+
+/* structure permettant de stocker les coordonn¨¦es d'une ville */
+typedef struct {
+	float x,y;
+} TCoord;
+
+/* retourne la distance euclidienne entre les villes i et j */
+float distance(TCoord * c, int i, int j) {
+	float t = sqrt(pow(c[i].x-c[j].x,2.0)+pow(c[i].y-c[j].y,2.0));
+	return t;
+}
+
+/* retourne la factorielle de n */
+double factoriel(double n) {
+	if ( n<=1 ) {
+		return 1.0;
+	} else {
+		return n*factoriel(n-1.0);
+	}
+}
+
+/* affiche une solution */
+void affiche(int n, int * s) {
+	int i;
+
+	printf("(");
+	for ( i=0 ; i<n-1 ; i++ ) {
+		printf("%d,",s[i]);
+	}
+	printf("%d)",s[i]);
+}
+
+/* evalue une solution */
+double eval(TCoord * c, int n, int * s) {
+	int i;
+	double d = 0.0;
+
+	/* somme des distance entre les villes composant la solution passee en
+	 * parametre */
+	for ( i=0 ; i<n-1 ; i++ ) {
+		d += distance(c,s[i]-1,s[i+1]-1);
+	}
+	/* on ajoute la distance de retour a la ville de depart */
+	d += distance (c,s[i]-1,s[0]-1);
+	return d;
+}
+
+
+
+/* fonction permutation
+ * cette fonction teste toute les permutations des n villes pour trouver
+ * la solution de cout minimum
+ * [in] TCoord * c : coordonn¨¦es des n villes (utile ¨¤ l'avaluation d'une solution)
+ * [in] int n : nombre de villes
+ * [in/out] int * best_sol : meilleure solution trouv¨¦e
+ * retourne la plus petite valeur d'evaluation trouv¨¦e
+ */
+double permutation(TCoord * c, int n, int * best_sol) {
+	/**
+
+
+
+	A ECRIRE
+
+
+
+
+	*/
+}
+
+
+/* fonction principale */
+int main(int argc, char * argv[] ) {
+	int n,i,j;
+	TCoord * coord; /* tableau des coordonn?es de chaque ville */
+	float ** dist; /* matrice des distances */
+	int * best_sol; /* meilleure solution trouv?e depuis le d?but */
+	double meilleur = DBL_MAX; /* r?sultat de l'optimisation */
+	clock_t depart,fin; /* pour mesurer le temps de calcul de l'algorithme de recherche */
+	float duree;
+
+	/* lecture du parametre de la ligne de commande : le nombre de villes */
+	if ( argc!=2 ) {
+		fprintf(stderr,"Parametre \"n\" (nb de villes) manquant.\n");
+		exit(1);
+	} else {
+		n = atoi(argv[1]);
+		printf("probleme a %d villes\n",n);
+	}
+	/* initialisation de la position des villes */
+	coord = (TCoord*)malloc(n*sizeof(TCoord));
+	srand((unsigned int)time(NULL));rand();
+
+	for ( i=0 ; i<n ; i++ ) {
+		/* on choisit al?atoirement des coordonn?es entre 0 et 1 */
+		coord[i].x = rand()/(RAND_MAX+1.0);
+		coord[i].y = rand()/(RAND_MAX+1.0);
+	}
+	/* r?servation m?moire de la matrice des distances */
+	dist = (float**)malloc(n*sizeof(float*));
+	for ( i=0 ; i<n ; i++ ) {
+		dist[i]=(float*)malloc(n*sizeof(float));
+		/* initialisation de la matrice des distances */
+		/* A FAIRE */
+	}
+
+	/* affichage des coordonn?es des villes */
+	for ( i=0 ; i<n ; i++ ) {
+		printf("%f %f\n",coord[i].x,coord[i].y);
+	}
+
+	/* initialisation d'une solution */
+	best_sol = (int*)malloc(n*sizeof(int));
+
+
+	/* recherche exaustive */
+	depart = clock();
+	meilleur = permutation(coord,n,best_sol);
+	fin = clock();
+	duree = (fin-depart)/(float)CLOCKS_PER_SEC;
+
+	/* affichage des r?sultats */
+	puts("RESULTATS");
+	printf("nb de solutions : %lf\n",factoriel((double)n));
+	printf("meilleure solution : ");
+	affiche(n,best_sol);
+	printf(" --> %lf\n",meilleur);
+	printf("duree de la recherche : %f s\n",duree);
+
+	/* liberation memoire de la position et distance des villes */
+	for ( i=0 ; i<n ; i++ ) {
+		free(dist[i]);
+	}
+	free(dist);
+	free(coord);
+	free(best_sol);
+	return 0;
+}

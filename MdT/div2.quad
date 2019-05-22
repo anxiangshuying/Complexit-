@@ -1,0 +1,25 @@
+#machine à diviser par 2 (exam du 23 décembre 2007)
+#
+#symbole pour le blanc
+B
+
+#quadruplets
+q0IBq0
+q0BGq1
+q1IXq1
+q1XGq2
+q2IGq2
+q2BDq3#commentaire
+q3IBq3
+q3BDq4
+q3XBq1
+q4IDq4
+q4XIq5
+q5IGq1
+
+#état initial
+q0
+
+#description instantannée initiale
+IIIIIBBBB
+

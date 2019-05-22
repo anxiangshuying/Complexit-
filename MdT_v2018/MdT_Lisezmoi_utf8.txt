@@ -1,0 +1,79 @@
+Simulateur de machine de Turing
+-------------------------------
+
+Sommaire :
+1) compilation
+2) syntaxe du fichier de description de machine de Turing
+3) Options de la ligne de commande
+
+------------------------------------------------------------
+1) Compilation (unix), il faut se placer dans le dossier (commandes 'cd' et 'ls') contenant les sources 
+et taper les commandes :
+
+  flex MdT.l
+  bison -d MdT.y
+  gcc -c lex.yy.c
+  gcc -c MdT.tab.c
+  gcc -o MdT lex.yy.o MdT.tab.o -lfl -lm
+
+remarques : 
+a) sur Mac Os, la librairie flex à appeler est “-ll” (à la place de “-lfl”)
+b) utiliser la commande make qui fait appel au fichier makefile est plus rapide
+c) si tout va bien le fichier MdT exécutable a été créé
+d) si les outils flex et bison ne sont pas présents sur le système, il faut les 
+ajouter : 
+	sudo apt-get install flex
+	sudo apt-get install bison
+
+
+------------------------------------------------------------
+2) Syntaxe de la commande :
+
+	./MdT < fic
+
+où "fic" est un fichier texte qui doit contenir la spécification 
+de la MdT ainsi que le contenu du ruban. Le format est le suivant :
+ - le caractère '#' sert à placer la fin de la ligne en commentaire
+ - tous les symboles sont représentés par 'S' ou 's' suivi d'un entier positif
+ - toute lettre différente de 'G', 'g', 'D', 'd', 'Q', 'q' est considérée comme un marqueur
+ - les états sont spécifiés par 'Q' ou 'q' suivi d'un entier positif
+ - les quadruplets sont séparés les uns des autres par un retour à la ligne
+ - chaque élément de la spécification est séparé par une ligne vide (ne pas oublier le 
+retour à la ligne après le dernier élément)
+ - la spécification se compose des éléments suivants (dans l'ordre) : du symbole utilisé 
+comme Blanc (cela peut etre un marqueur ou un symbole), de la liste des quadruplets, 
+de la description instantanée initiale : 
+le contenu du ruban avec l'état initial de la MdT devant le symbole sur lequel la tête de 
+L/E est positionnée au démarrage.
+
+Exemple de spécification :
+--------------------------
+#machine à copier
+#
+#symbole pour le blanc
+S0
+
+#quadruplets
+q0S1Xq1
+q1XGq1
+q1S1Gq1
+q1S0Gq2
+q2S0S1q3
+q2S1Gq2
+q3S1Dq3
+q3S0Dq4
+q4S1Dq4
+q4XS1q5
+q5S1Gq0
+
+
+#description instantannée initiale
+#l'état initial q0 indique aussi la position de la tête de L/E 
+#la description doit toujours commencer par un symbole
+S0q0S1S1S1S1S1S1S1S0S0S0S0
+
+------------------------------------------------------------
+3) Options de la ligne de commande
+Pour obtenir les options de la ligne de commande, il suffit de 
+tapper l'option -? ou -h ou -H
+

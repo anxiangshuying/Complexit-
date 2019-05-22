@@ -1,0 +1,24 @@
+#machine à copier
+#
+#symbole pour le blanc
+S0
+
+#quadruplets
+q0S1Xq1
+q1XGq1
+q1S1Gq1
+q1S0Gq2
+q2S0S1q3
+q2S1Gq2
+q3S1Dq3
+q3S0Dq4
+q4S1Dq4
+q4XS1q5
+q5S1Gq0
+
+
+#description instantannée initiale
+#l'état initial q0 indique aussi la position de la tête de L/E 
+#la description doit toujours commencer par un symbole
+S0q0S1S1S1S1S1S1S1S0S0S0S0
+
